@@ -1,0 +1,17 @@
+{
+  "builders": [
+    {
+      "type": "docker",
+      "image": "centos/latest",
+      "export_path": "test.tar"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "echo hello, world!"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+#!/bin/bash -ex
+cd $(cd `dirname "$0"`; cd ..; pwd)
+
+# Update everything
+yum update -y
+
+# Install Packer
+if [ ! -f /usr/local/bin/packer ]; then
+	pushd /tmp
+		yum install -y unzip
+		wget https://dl.bintray.com/mitchellh/packer/packer_0.8.6_linux_amd64.zip
+		unzip packer_0.8.6_linux_amd64.zip -d /usr/local/bin
+		rm packer_0.8.6_linux_amd64.zip
+	popd
+fi
+
+# Install Docker from vendor repo
+# See: https://docs.docker.com/installation/centos/#install-without-the-script
+if [ ! -f /usr/bin/docker ]; then
+	cat >/etc/yum.repos.d/docker.repo <<-EOF
+	[dockerrepo]
+	name=Docker Repository
+	baseurl=https://yum.dockerproject.org/repo/main/centos/7
+	enabled=1
+	gpgcheck=1
+	gpgkey=https://yum.dockerproject.org/gpg
+	EOF
+
+	yum install -y docker-engine-1.8.1
+	usermod -aG docker vagrant
+	systemctl enable docker
+	systemctl start docker
+fi
