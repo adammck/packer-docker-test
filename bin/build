@@ -1,0 +1,6 @@
+#!/bin/bash -ex
+cd $(cd `dirname "$0"`; cd ..; pwd)
+
+packer build                   \
+  -var docker_hub_user=adammck \
+  packer.json

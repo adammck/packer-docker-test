@@ -1,9 +1,12 @@
 {
+  "variables": {
+    "docker_hub_user": ""
+  },
   "builders": [
     {
       "type": "docker",
-      "image": "centos/latest",
-      "export_path": "test.tar"
+      "image": "centos:latest",
+      "commit": true
     }
   ],
   "provisioners": [
@@ -12,6 +15,14 @@
       "inline": [
         "echo hello, world!"
       ]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "docker-tag",
+      "only": ["docker"],
+      "repository": "{{user `docker_hub_user`}}/something",
+      "tag": "latest"
     }
   ]
 }
