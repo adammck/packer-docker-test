@@ -1,8 +1,8 @@
 #!/bin/bash -ex
 cd $(cd `dirname "$0"`; cd ..; pwd)
 
-# Update everything
-yum update -y
+# Update everything (except the kernel, to avoid breaking the guest additions).
+yum -x "kernel*" -y update
 
 # Install Packer
 if [ ! -f /usr/local/bin/packer ]; then
