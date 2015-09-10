@@ -8,9 +8,9 @@ yum update -y
 if [ ! -f /usr/local/bin/packer ]; then
 	pushd /tmp
 		yum install -y unzip
-		wget https://dl.bintray.com/mitchellh/packer/packer_0.8.6_linux_amd64.zip
-		unzip packer_0.8.6_linux_amd64.zip -d /usr/local/bin
-		rm packer_0.8.6_linux_amd64.zip
+		curl -SLo packer.zip https://dl.bintray.com/mitchellh/packer/packer_0.8.6_linux_amd64.zip
+		unzip packer.zip -d /usr/local/bin
+		rm packer.zip
 	popd
 fi
 
